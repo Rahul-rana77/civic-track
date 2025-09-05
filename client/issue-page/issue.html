@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Details</title>
+  <link rel="stylesheet" href="./issue.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="image-container">
+      <img id="issueImage" src="" alt="Issue Image"/>
+    </div>
+
+    <div class="content">
+      <div class="details">
+        <div class="title-status">
+          <h2 id="issueTitle">Issue Title</h2>
+          <span id="issueStatus" class="status reported">Reported</span>
+        </div>
+        <p><strong>Category:</strong> <span id="issueCategory"></span></p>
+        <p><strong>Date:</strong> <span id="issueDate"></span></p>
+        <p><strong>Location:</strong> <span id="issueLocation"></span></p>
+        <p><strong>Description:</strong> <span id="issueDescription"></span></p>
+      </div>
+
+      <div id="map" class="map"></div>
+    </div>
+  </div>
+
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script type="module" src="./issue.js"></script>
+</body>
+</html>

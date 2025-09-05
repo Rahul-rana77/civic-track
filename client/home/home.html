@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./home.css">
+  <title>CivicTrack - Issues</title>
+</head>
+<body>
+  <header>
+    <h1>CivicTrack</h1>
+    <nav>
+      <a href="/new-issue/new-issue.html">Report New Issue</a>
+      <a href="/">Exit</a>
+      <a href="/login page/login.html">login</a>
+    </nav>
+  </header>
+
+  <section class="filters">
+    <select id="categoryFilter">
+      <option>Category</option>
+      <option>Streetlight</option>
+      <option>Pothole</option>
+      <option>Garbage</option>
+    </select>
+
+    <select id="statusFilter">
+      <option>Status</option>
+      <option>In Progress</option>
+      <option>Reported</option>
+    </select>
+
+    <select id="distanceFilter">
+      <option>Distance</option>
+      <option>1 km</option>
+      <option>5 km</option>
+      <option>10 km</option>
+    </select>
+
+    <input type="text" id="searchBar" placeholder="Search Issues" />
+    <button type="button" onclick="searchIssues()">Search</button>
+  </section>
+
+  <main onclick="renderIssues(issues)" id="issuesContainer" class="grid-container">
+    
+  </main>
+
+  <footer>
+    <p>&copy; 2024 CivicTrack. All rights reserved.</p>
+  </footer>
+  <script src="./home.js"></script>
+</body>
+</html>
+

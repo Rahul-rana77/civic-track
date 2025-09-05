@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./new-issue.css">
+    <title>Issue Form</title>
+</head>
+<body>
+    
+<div class="container">
+    <h1>New Issue</h1>
+    <form id="issue-form" method="post" enctype="multipart/form-data">
+            <input type="text" id="title" placeholder="Title" required />
+            <textarea id="description" placeholder="Discription" required></textarea>
+            <input type="text" id="location" placeholder="Location" required />
+        <select id="category">
+            <option value="Roads">Roads</option>
+            <option value="Lighting">Lighting</option>
+            <option value="Water Supply">Water Supply</option>
+            <option value="Cleanliness">Cleanliness</option>
+            <option value="Public Safety">Public Safety</option>
+            <option value="Obstructions">Obstructions</option>
+        </select>
+        <input type="file" id="photo" accept="image/*" />
+        <label>
+            <input type="checkbox" id="anonymous" /> Report Anonymously
+        </label>
+        <button type="submit">Submit Issue</button>
+        <button onclick="back()" id="btn">Back</button>
+    </form>
+</div>
+    <script src="./new-issue.js"></script>
+</body>
+</html>

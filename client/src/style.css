@@ -1,0 +1,92 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 1rem;
+}
+
+.auth-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  transition: 0.3s ease-in-out;
+}
+
+
+.auth-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #673ab7;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.auth-container input:focus {
+  border-color: #673ab7;
+  outline: none;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #673ab7;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-container button:hover {
+  background: #5e35b1;
+}
+
+.auth-container p {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.auth-container a {
+  color: #673ab7;
+  text-decoration: none;
+}
+
+
+@media (max-width: 500px) {
+  .auth-container {
+    padding: 1.5rem;
+    border-radius: 10px;
+  }
+
+  .auth-container h2 {
+    font-size: 1.4rem;
+  }
+
+  .auth-container input,
+  .auth-container button {
+    font-size: 0.95rem;
+  }
+}
