@@ -2,7 +2,7 @@ let allIssues = [];
 
 async function fetchIssues() {
     try {
-      const res = await fetch("http://localhost:8000/api/issues");
+      const res = await fetch("https://civic-track-55yd.onrender.com/api/issues");
       const issues = await res.json();
       allIssues = issues;
       renderIssues(issues);
@@ -17,10 +17,10 @@ async function fetchIssues() {
     function getImageUrl(issue) {
   if (!issue.photoUrl) return 'https://via.placeholder.com/280x120?text=No+Image';
   if (issue.photoUrl.startsWith('/uploads')) {
-    return `http://localhost:8000${issue.photoUrl}`;
+    return `https://civic-track-55yd.onrender.com${issue.photoUrl}`;
   }
   if (issue.image.startsWith('uploads')) {
-    return `http://localhost:8000/${issue.photoUrl}`;
+    return `https://civic-track-55yd.onrender.com/${issue.photoUrl}`;
   }
   return issue.photoUrl;
 }

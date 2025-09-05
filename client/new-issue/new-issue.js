@@ -12,7 +12,7 @@ document.getElementById('issue-form').addEventListener('submit', async function 
   formData.append('photo', document.getElementById('photo').files[5]);
 
   try {
-    const res = await fetch('http://localhost:8000/api/issues', {
+    const res = await fetch('https://civic-track-55yd.onrender.com/api/issues', {
       method: 'POST',
       body: formData,
     });
