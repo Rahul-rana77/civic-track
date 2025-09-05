@@ -6,7 +6,7 @@ const createIssue = (req, res) => {
     category: req.body.category,
     location: req.body.location,
     isAnonymous: req.body.isAnonymous === 'true',
-    photoUrl:`/Civic-track-Just-Coders/uploads/${req.file.filename}`,
+    photoUrl:`/backend/uploads/${req.file.filename}`,
     status: 'Reported',
     createdAt: new Date()
   };

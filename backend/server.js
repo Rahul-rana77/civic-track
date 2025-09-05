@@ -7,7 +7,11 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://civic-tracker.vercel.app"], 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
 app.use(express.json());
 
 const DB_PATH = path.join(__dirname, 'db.json');
@@ -18,13 +22,16 @@ if (!fs.existsSync(DB_PATH)) {
   console.log('📁 Created db.json');
 }
 
+
+
+
 // ✅ Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
 // ✅ Multer config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '/uploads');
+    const uploadDir = path.join(__dirname, './uploads');
     if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
     cb(null, uploadDir);
   },
