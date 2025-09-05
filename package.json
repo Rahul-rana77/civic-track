@@ -9,6 +9,7 @@
     "build": "npm run build"
   },
   "dependencies": {
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "vite": "^7.1.4"
   }
 }
