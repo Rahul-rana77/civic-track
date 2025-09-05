@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix client\"",
     "start": "node backend/server.js",
-    "build": "vite build"
+    "build": "npm run build"
   },
   "dependencies": {
     "dotenv": "^17.2.2"

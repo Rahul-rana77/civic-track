@@ -30,3 +30,7 @@ dist-ssr
 .env.production.local
 .env
 node_modules/
+backend/db.json
+backend/node_modules/
+backend/uploads/
+client/node_modules/
