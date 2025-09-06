@@ -1,88 +1,101 @@
-const express = require('express');
-const multer = require('multer');
-const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import issueRoutes from "./routes/issues.js";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
+// ✅ Fix for __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Enhanced CORS configuration
 app.use(cors({
-  origin: ["https://civic-tracker.vercel.app"], 
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "https://civic-tracker.vercel.app",
+      "http://localhost:3000",
+      "https://civic-track-55yd.onrender.com"
+    ];
+    
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.use(express.json());
+// ✅ Handle preflight requests
+app.options('*', cors());
 
-const DB_PATH = path.join(__dirname, 'db.json');
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// ✅ Ensure db.json exists on server start
-if (!fs.existsSync(DB_PATH)) {
-  fs.writeFileSync(DB_PATH, '[]');
-  console.log('📁 Created db.json');
-}
+// ✅ Serve static files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// ✅ Mount routes with logging
+app.use("/api/issues", issueRoutes);
 
-
-
-// ✅ Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, './uploads')));
-
-// ✅ Multer config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, './uploads');
-    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const originalName = file.originalname.replace(/\s+/g, '_'); // ✅ replace spaces
-    const uniqueName = Date.now() + '-' + originalName;
-    cb(null, uniqueName);
-  }
-});
-const upload = multer({ storage });
-
-// ✅ Save issue to db.json
-function saveIssue(issue) {
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    const data = JSON.parse(raw);
-    data.push(issue);
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
-    console.log('✅ Issue saved');
-  } catch (err) {
-    console.error('❌ Error saving issue:', err.message);
-  }
-}
-
-// ✅ API: Submit issue
-app.post('/api/issues', upload.array('photo',5), (req, res) => {
-  const issue = {
-    id: Date.now(),
-    title: req.body.title,
-    description: req.body.description,
-    location: req.body.location,
-    category: req.body.category,
-    isAnonymous: req.body.isAnonymous === 'true',
-    photoUrl: req.file ? `/backend/uploads/${req.file.filename}` : null,
-    createdAt: new Date(),
-    status: 'Reported'
-  };
-  saveIssue(issue);
-  res.status(201).json(issue);
+// ✅ Enhanced health check
+app.get("/health", (req, res) => {
+  res.status(200).json({ 
+    status: "OK", 
+    message: "Server is running",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
-// ✅ API: Get all issues
-app.get('/api/issues', (req, res) => {
-  try {
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    res.json(JSON.parse(data));
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to read issues.' });
-  }
+// ✅ Test route to verify API is working
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    message: "API is working!",
+    timestamp: new Date().toISOString()
+  });
+});
+
+// ✅ Root endpoint
+app.get("/", (req, res) => {
+  res.json({ 
+    message: "Civic Tracker Backend API",
+    endpoints: {
+      issues: "/api/issues",
+      health: "/health",
+      test: "/api/test"
+    }
+  });
+});
+
+// ✅ Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({ 
+    error: "Internal Server Error",
+    message: err.message 
+  });
+});
+
+// ✅ 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: "Endpoint not found",
+    path: req.path,
+    method: req.method
+  });
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+  console.log(`✅ Server running on port ${port}`);
+  console.log(`✅ Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`✅ Health check: http://localhost:${port}/health`);
 });
